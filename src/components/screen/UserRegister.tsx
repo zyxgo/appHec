@@ -29,6 +29,13 @@ function UserRegister(props: IProps) {
         userRole: 'Roleless',
         userName: 'App User',
         userEmail: a,
+        userAlamat: '',
+        flagActivity: 'userIdle',
+        userHandphone: '',
+        nomorAntrian: 0,
+        userStatusPasien: 'UMUM',
+        userTanggalBooking: '',
+        userAvatar: '',
       })
       dispatch({ type: 'set-user-app', payload: authUser.user.uid });
       AsyncStorage.setItem('userToken', authUser.user.uid);

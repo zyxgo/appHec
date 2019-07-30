@@ -1,58 +1,50 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-    Platform,
-    StatusBar,
-    StyleSheet,
-    TouchableHighlight,
-    TouchableOpacity,
-    Image,
-    ScrollView,
     View,
-    FlatList,
-    InteractionManager,
 } from 'react-native';
-import { AppProvider as Provider, AppConsumer, AppContext } from '../../providers';
+import { AppContext } from '../../providers';
 import * as fb from '../../firebase/firebase';
 import {
-    Title, Paragraph, Caption, Subheading, Text,
-    Card, Searchbar, TextInput, Dialog, Portal, IconButton,
-    Button,
+    Title, Paragraph, Card, Button,
 } from 'react-native-paper';
-
 import styled from 'styled-components/native';
+
+import UserHome from '../screen/User/UserHome';
 
 interface IProps {
     navigation?: any;
 }
 
 function Page(props: IProps) {
-    const { state, dispatch } = React.useContext(AppContext);
+    const { state } = React.useContext(AppContext);
+    const [, setStatusPasien] = useState('');
 
     useEffect(() => {
-        // const fetchData = async () => {
-        //     const res = await fb.db.ref('appUser/' + state.appUserToken).once('value');
-        //     dispatch({ type: 'set-user-app', payload: res.val() });
-        // };
-        // fetchData();
+        const fetchData = async () => {
+            const res = await fb.db.ref('appUser/' + state.appUserToken + '/userStatusPasien').once('value');
+            // dispatch({ type: 'set-user-app', payload: res.val() });
+            setStatusPasien(res.val());
+        };
+        fetchData();
         return () => {
             fb.db.ref('appUser').off;
         };
     }, []);
 
-    console.log(state);
+    // console.log(state);
 
     return (
         <Container>
-            <View style={{ width: '100%' }}>
-                <Card>
+            <View key={1} style={{ width: '100%' }}>
+                <Card key={'1'}>
                     <Card.Content>
-                        <Title>{state.appUser.namaLengkap}</Title>
-                        <Title>Role: {state.appUser.role}</Title>
-                        <Paragraph>{state.appUserToken}</Paragraph>
+                        <Title>Halo, {!!state.appUser && state.appUser.userName}</Title>
+                        <Paragraph>{!!state.appUser && state.appUser.userEmail}</Paragraph>
+                        <Paragraph>{!!state.appUser && state.appUser.userRole}</Paragraph>
                     </Card.Content>
                 </Card>
-                {state.appUser.role === 'apotek' &&
-                    <Card>
+                {!!state.appUser && state.appUser.userRole === 'apotek' &&
+                    <Card key={'2'}>
                         <Card.Content>
                             <Title>List Obat</Title>
                         </Card.Content>
@@ -63,6 +55,8 @@ function Page(props: IProps) {
                         </Card.Actions>
                     </Card>
                 }
+
+                <UserHome />
             </View>
         </Container>
     );
@@ -81,8 +75,4 @@ const Container = styled.View`
   align-items: flex-start;
   justify-content: flex-start;
   padding: 5px;
-`;
-const Space8 = styled.View`
-  height: 8px;
-  width: 8px;
 `;

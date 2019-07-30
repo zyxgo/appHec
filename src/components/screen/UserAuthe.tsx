@@ -1,47 +1,28 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
     ActivityIndicator,
     AsyncStorage,
-    Platform,
     StatusBar,
-    StyleSheet,
-    TouchableHighlight,
-    TouchableOpacity,
-    Image,
-    ScrollView,
-    Text,
-    View,
-    FlatList,
-    InteractionManager,
 } from 'react-native';
 
-import { AppProvider as Provider, AppConsumer, AppContext } from '../../providers';
+import { AppContext } from '../../providers';
 import * as fb from '../../firebase/firebase';
 import styled from 'styled-components/native';
-
-// import Button from '../shared/Button';
-// import {
-//     IC_MASK,
-// } from '../../utils/Icons';
 
 interface IProps {
     navigation: any;
 }
 
 function UserAuthe(props: IProps) {
-    const { state, dispatch } = React.useContext(AppContext);
-    const [userToken, setUserToken] = useState('');
+    const { dispatch } = React.useContext(AppContext);
 
     useEffect(() => {
         const getData = async () => {
             try {
                 const token = await AsyncStorage.getItem('userToken');
-                // dispatch({ type: 'set-user-token', payload: token ? token : 'nouser' });
-                // setUserToken(token ? token : 'nouser');
-                // props.navigation.navigate(token ? 'AppNavigator' : 'AuthStackNavigator');
-                const res = await fb.db.ref('users/' + token).once('value');
-                dispatch({ type: 'set-user-app', payload: res.val() });
                 dispatch({ type: 'set-user-token', payload: token ? token : 'nouser' });
+                const res = await fb.db.ref('appUser/' + token).once('value');
+                dispatch({ type: 'set-user-app', payload: res.val() });
                 props.navigation.navigate(token ? 'AppNavigator' : 'AuthStackNavigator');
             } catch (e) {
                 console.log(e);
