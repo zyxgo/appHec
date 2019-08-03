@@ -56,7 +56,7 @@ function Page(props: IProps) {
                     </Card>
                 }
 
-                <UserHome />
+                <UserHome navigation={props.navigation} />
             </View>
         </Container>
     );

@@ -10,6 +10,7 @@ import UserAuthe from '../screen/UserAuthe';
 import AppUserProfile from '../screen/AppUserProfile';
 import ApotekListObat from '../screen/Apotek/ApotekListObat';
 import ApotekEditObat from '../screen/Apotek/ApotekEditObat';
+import UserPilihBooking from '../screen/User/UserPilihBooking';
 
 const BottomTabNavigator = createBottomTabNavigator(
   {
@@ -56,6 +57,9 @@ const routeConfig = {
   },
   ApotekEditObat: {
     screen: ApotekEditObat,
+  },
+  UserPilihBooking: {
+    screen: UserPilihBooking,
   },
   Intro: {
     screen: IntroScreen,

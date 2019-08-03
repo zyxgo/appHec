@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import {
+    View,
+} from 'react-native';
 import { AppContext } from '../../../providers';
 import * as fb from '../../../firebase/firebase';
 import {
@@ -47,23 +50,38 @@ function Page(props: IProps) {
             setStatusPasien([])
             // setIsLoading(false);
         }
-        
+
     }
 
     return (
         <Container>
             {!!state.appUser && state.appUser.userRole === 'user' &&
-                <Card key={'3'}>
-                    <Card.Content>
-                        <Title>Status Pasien : {statusPasien}</Title>
-                        <Paragraph>Klik untuk merubah status pasien. Perubahan hanya dapat dilakukan 1x24 jam. Untuk pasien BPJS mohon membawa surat keterangan untuk verifikasi</Paragraph>
-                    </Card.Content>
-                    <Card.Actions>
-                        <Button onPress={() => _onUbahStatus()}>
-                            Ubah Status Pasien
+                <View>
+                    <Space8 />
+                    <Card key={'3'}>
+                        <Card.Content>
+                            <Title>Status Pasien : {statusPasien}</Title>
+                            <Paragraph>Klik untuk merubah status pasien. Perubahan hanya dapat dilakukan 1x24 jam. Untuk pasien BPJS mohon membawa surat keterangan untuk verifikasi</Paragraph>
+                        </Card.Content>
+                        <Card.Actions>
+                            <Button onPress={() => _onUbahStatus()}>
+                                Ubah Status Pasien
                             </Button>
-                    </Card.Actions>
-                </Card>
+                        </Card.Actions>
+                    </Card>
+                    <Space8 />
+                    <Card key={'4'}>
+                        <Card.Content>
+                            <Title>Nomor Daftar Antrian : </Title>
+                            <Paragraph>Tanggal Booking : </Paragraph>
+                        </Card.Content>
+                        <Card.Actions>
+                            <Button onPress={() => props.navigation.navigate('UserPilihBooking')}>
+                                Daftar Antrian
+                            </Button>
+                        </Card.Actions>
+                    </Card>
+                </View>
             }
         </Container>
     );
@@ -84,4 +102,8 @@ const Container = styled.View`
   align-items: flex-start;
   justify-content: flex-start;
   padding: 0px;
+`;
+const Space8 = styled.View`
+  height: 8px;
+  width: 8px;
 `;

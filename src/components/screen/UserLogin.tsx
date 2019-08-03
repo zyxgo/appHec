@@ -7,7 +7,7 @@ import {
   TextInput,
   Button,
 } from 'react-native-paper';
-import { AppProvider as Provider, AppConsumer, AppContext } from '../../providers';
+// import { AppProvider as Provider, AppConsumer, AppContext } from '../../providers';
 import { auth } from '../../firebase';
 
 interface IProps {
@@ -18,17 +18,17 @@ interface IProps {
 function Login(props: IProps) {
   const [txtEmail, setTxtEmail] = React.useState('');
   const [txtPassword, setTxtPassword] = React.useState('');
-  const { state, dispatch } = React.useContext(AppContext);
+  // const { state, dispatch } = React.useContext(AppContext);
 
-  const _onLogin = (a:string, b:string) => {
-    auth.doSignInWithEmailAndPassword(a,b)
-    .then((authUser) => {
-      AsyncStorage.setItem('userToken', authUser.user.uid);
-      props.navigation.navigate('UserAuthe')
-    })
-    .catch((error) => {
-      Alert.alert(error.message);
-    });
+  const _onLogin = (a: string, b: string) => {
+    auth.doSignInWithEmailAndPassword(a, b)
+      .then((authUser: any) => {
+        AsyncStorage.setItem('userToken', authUser.user.uid);
+        props.navigation.navigate('UserAuthe')
+      })
+      .catch((error: any) => {
+        Alert.alert(error.message);
+      });
   }
 
   return (
