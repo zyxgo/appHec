@@ -22,25 +22,44 @@ function Page(props: IProps) {
     const [statusPasien, setStatusPasien] = useState([]);
     const [tanggalBooking, setTanggalBooking] = useState([]);
     const [isVisible, setIsVisible] = useState(false);
+    const [latestNomorAntrianPasien, setLatestNomorAntrian] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await fb.db.ref('appUser/' + state.appUserToken + '/userStatusPasien').once('value');
-            setStatusPasien(res.val());
+            const res = await fb.db.ref(`daftarTunggu/indexes/${moment().format('YYYY-MM-DD')}/nomorAntrianPasien`).once('value');
+            const p = res.val() == null ? 1 : res.val();
+            setLatestNomorAntrian(p);
         };
         fetchData();
 
         return () => {
-            fb.db.ref('appUser').off;
+            fb.db.ref('daftarTunggu').off;
         };
-    }, [statusPasien]);
-
-
+    }, []);
 
     const handleDatePicked = (p: any) => {
-        console.log(p)
+        fb.db.ref('appUser/' + state.appUserToken).update({
+            userFlagActivity: 'antriPoliklinik',
+            userNomorAntrian: latestNomorAntrianPasien,
+            userTanggalBooking: p,
+            userTanggalBooking2: moment(p).format('YYYY-MM-DD'),
+        });
+        fb.db.ref(`daftarTunggu/indexes/${moment(p).format('YYYY-MM-DD')}`).update({
+            nomorAntrianPasien: latestNomorAntrianPasien + 1,
+        });
+        const a = fb.db.ref('daftarTunggu/byDates').push();
+        fb.db.ref('daftarTunggu/byDates/' + a.key).update({
+            idAntrian: a.key,
+            uid: state.appUser.userId,
+            namaAntrian: state.appUser.userName,
+            nomorAntrian: latestNomorAntrianPasien,
+            poli: 'POLI1',
+            userTanggalBooking: p,
+            userTanggalBooking2: moment(p).format('YYYY-MM-DD'),
+        });
         setTanggalBooking(p.toString());
         setIsVisible(false);
+        props.navigation.goBack();
     }
 
     const showDateTimePicker = () => {
@@ -56,7 +75,8 @@ function Page(props: IProps) {
                 <Card key={'4'}>
                     <Card.Content>
                         <Title>Nomor Daftar Antrian : </Title>
-                        <Paragraph>Tanggal Booking : {tanggalBooking}</Paragraph>
+                        <Paragraph>Tanggal Booking : {moment(tanggalBooking).format('LL')}</Paragraph>
+                        {/* <Paragraph>Tanggal Booking : {tanggalBooking}</Paragraph> */}
                         <DateTimePicker
                             isVisible={isVisible}
                             onConfirm={handleDatePicked}
@@ -82,14 +102,14 @@ Page.navigationOptions = {
 export default Page;
 
 const Container = styled.View`
-          flex: 1;
-  background-color: ${(props) => props.theme.background};
-            flex-direction: row;
-            align-items: flex-start;
-            justify-content: flex-start;
-            padding: 0px;
-          `;
+        flex: 1;
+        background-color: ${(props) => props.theme.background};
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 5px;
+    `;
 const Space8 = styled.View`
-            height: 8px;
-            width: 8px;
-`;
+        height: 8px;
+        width: 8px;
+    `;

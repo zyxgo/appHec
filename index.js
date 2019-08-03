@@ -9,6 +9,7 @@ YellowBox.ignoreWarnings([
   'Warning: componentWillReceiveProps is deprecated',,
   'Module RCTImageLoader',
   'Setting a timer for a',
+  'Deprecation warning: value provided is not in a recognized RFC2822',
 ]);
 
 AppRegistry.registerComponent('appHec', () => App);
