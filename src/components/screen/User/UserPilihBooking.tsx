@@ -24,42 +24,46 @@ function Page(props: IProps) {
     const [isVisible, setIsVisible] = useState(false);
     const [latestNomorAntrianPasien, setLatestNomorAntrian] = useState(0);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const res = await fb.db.ref(`daftarTunggu/indexes/${moment().format('YYYY-MM-DD')}/nomorAntrianPasien`).once('value');
-            const p = res.val() == null ? 1 : res.val();
-            setLatestNomorAntrian(p);
-        };
-        fetchData();
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const res = await fb.db.ref(`daftarTunggu/indexes/${moment().format('YYYY-MM-DD')}/nomorAntrianPasien`).once('value');
+    //         const p = res.val() == null ? 1 : res.val();
+    //         setLatestNomorAntrian(p);
+    //     };
+    //     fetchData();
 
-        return () => {
-            fb.db.ref('daftarTunggu').off;
-        };
-    }, []);
+    //     return () => {
+    //         fb.db.ref('daftarTunggu').off;
+    //     };
+    // }, []);
 
-    const handleDatePicked = (p: any) => {
+    const handleDatePicked = async (p: any) => {
+        const res = await fb.db.ref(`daftarTunggu/indexes/${moment(p).format('YYYY-MM-DD')}/nomorAntrianPasien`).once('value');
+        const q = res.val() == null ? 1 : res.val();
+        setLatestNomorAntrian(q);
+
         fb.db.ref('appUser/' + state.appUserToken).update({
             userFlagActivity: 'antriPoliklinik',
-            userNomorAntrian: latestNomorAntrianPasien,
+            userNomorAntrian: q,
             userTanggalBooking: p,
             userTanggalBooking2: moment(p).format('YYYY-MM-DD'),
         });
         fb.db.ref(`daftarTunggu/indexes/${moment(p).format('YYYY-MM-DD')}`).update({
-            nomorAntrianPasien: latestNomorAntrianPasien + 1,
+            nomorAntrianPasien: q + 1,
         });
         const a = fb.db.ref('daftarTunggu/byDates').push();
         fb.db.ref('daftarTunggu/byDates/' + a.key).update({
             idAntrian: a.key,
             uid: state.appUser.userId,
             namaAntrian: state.appUser.userName,
-            nomorAntrian: latestNomorAntrianPasien,
+            nomorAntrian: q,
             poli: 'POLI1',
             userTanggalBooking: p,
             userTanggalBooking2: moment(p).format('YYYY-MM-DD'),
         });
         setTanggalBooking(p.toString());
         setIsVisible(false);
-        props.navigation.goBack();
+        props.navigation.navigate('BottomTabNavigator');
     }
 
     const showDateTimePicker = () => {
@@ -74,7 +78,7 @@ function Page(props: IProps) {
             <View>
                 <Card key={'4'}>
                     <Card.Content>
-                        <Title>Nomor Daftar Antrian : </Title>
+                        <Title>Nomor Daftar Antrian : {latestNomorAntrianPasien}</Title>
                         <Paragraph>Tanggal Booking : {moment(tanggalBooking).format('LL')}</Paragraph>
                         {/* <Paragraph>Tanggal Booking : {tanggalBooking}</Paragraph> */}
                         <DateTimePicker

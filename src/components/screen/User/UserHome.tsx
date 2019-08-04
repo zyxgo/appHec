@@ -17,40 +17,55 @@ interface IProps {
 function Page(props: IProps) {
     const { state } = React.useContext(AppContext);
     const [statusPasien, setStatusPasien] = useState([]);
-    // const [isLoading, setIsLoading] = useState(false);
+    const [tanggalBooking, setTanggalBooking] = useState([]);
+    const [nomorAntrianPasien, setNomorAntrianPasien] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             const res = await fb.db.ref('appUser/' + state.appUserToken + '/userStatusPasien').once('value');
             setStatusPasien(res.val());
-            // setIsLoading(true);
         };
         fetchData();
-
+        
         return () => {
             fb.db.ref('appUser').off;
-            // setIsLoading(false);
         };
     }, [statusPasien]);
 
-    // console.log(statusPasien);
+    useEffect(() => {
+        const fetchData2 = async () => {
+            const res = await fb.db.ref('appUser/' + state.appUserToken + '/userTanggalBooking2').once('value');
+            setTanggalBooking(res.val());
+        };
+        fetchData2();
+
+        return () => {
+            fb.db.ref('appUser').off;
+        };
+    });
+
+    useEffect(() => {
+        const fetchData3 = async () => {
+            const res = await fb.db.ref('appUser/' + state.appUserToken + '/userNomorAntrian').once('value');
+            setNomorAntrianPasien(res.val());
+        };
+        fetchData3();
+        return () => {
+            fb.db.ref('appUser').off;
+        };
+    });
 
     const _onUbahStatus = () => {
-        // setIsLoading(true);
         if (statusPasien.toString() === 'BPJS') {
             fb.db.ref('appUser/' + state.appUserToken).update({
                 userStatusPasien: 'UMUM',
             });
-            setStatusPasien([])
-            // setIsLoading(false);
         } else if (statusPasien.toString() === 'UMUM') {
             fb.db.ref('appUser/' + state.appUserToken).update({
                 userStatusPasien: 'BPJS',
             });
-            setStatusPasien([])
-            // setIsLoading(false);
         }
-
+        setStatusPasien([])
     }
 
     return (
@@ -72,8 +87,8 @@ function Page(props: IProps) {
                     <Space8 />
                     <Card key={'4'}>
                         <Card.Content>
-                            <Title>Nomor Daftar Antrian : </Title>
-                            <Paragraph>Tanggal Booking : </Paragraph>
+                            <Title>Nomor Daftar Antrian : {nomorAntrianPasien}</Title>
+                            <Paragraph>Tanggal Booking : {tanggalBooking}</Paragraph>
                         </Card.Content>
                         <Card.Actions>
                             <Button onPress={() => props.navigation.navigate('UserPilihBooking')}>
