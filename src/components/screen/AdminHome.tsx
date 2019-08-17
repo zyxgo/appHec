@@ -10,6 +10,7 @@ import {
 import styled from 'styled-components/native';
 
 import UserHome from '../screen/User/UserHome';
+import ResepsionisHome from '../screen/Resepsionis/ResepsionisHome';
 
 interface IProps {
     navigation?: any;
@@ -55,8 +56,12 @@ function Page(props: IProps) {
                         </Card.Actions>
                     </Card>
                 }
-
-                <UserHome navigation={props.navigation} />
+                {!!state.appUser && state.appUser.userRole === 'user' &&
+                    <UserHome navigation={props.navigation} />
+                }
+                {!!state.appUser && state.appUser.userRole === 'resepsionis' &&
+                    <ResepsionisHome navigation={props.navigation} />
+                }
             </View>
         </Container>
     );

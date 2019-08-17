@@ -91,7 +91,7 @@ function Page(props: IProps) {
                             <Paragraph>Tanggal Booking : {tanggalBooking}</Paragraph>
                         </Card.Content>
                         <Card.Actions>
-                            <Button onPress={() => props.navigation.navigate('UserPilihBooking')}>
+                            <Button onPress={() => props.navigation.navigate('ResepsionisDaftarBooking')}>
                                 Daftar Antrian
                             </Button>
                         </Card.Actions>

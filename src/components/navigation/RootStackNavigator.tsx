@@ -11,6 +11,8 @@ import AppUserProfile from '../screen/AppUserProfile';
 import ApotekListObat from '../screen/Apotek/ApotekListObat';
 import ApotekEditObat from '../screen/Apotek/ApotekEditObat';
 import UserPilihBooking from '../screen/User/UserPilihBooking';
+import ResepsionisHome from '../screen/Resepsionis/ResepsionisHome';
+import ResepsionisDaftarBooking from '../screen/Resepsionis/ResepsionisDaftarBooking';
 
 const BottomTabNavigator = createBottomTabNavigator(
   {
@@ -60,6 +62,12 @@ const routeConfig = {
   },
   UserPilihBooking: {
     screen: UserPilihBooking,
+  },
+  ResepsionisDaftarBooking: {
+    screen: ResepsionisDaftarBooking,
+  },
+  ResepsionisHome: {
+    screen: ResepsionisHome,
   },
   Intro: {
     screen: IntroScreen,
