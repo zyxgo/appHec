@@ -37,6 +37,7 @@ function Login(props: IProps) {
         label='Email'
         value={txtEmail}
         onChangeText={(a) => setTxtEmail(a)}
+        keyboardType='email-address'
       />
       <Space8 />
       <TextInput

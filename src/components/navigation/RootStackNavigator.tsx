@@ -8,11 +8,18 @@ import TempScreen from '../screen/Temp';
 import AdminHome from '../screen/AdminHome';
 import UserAuthe from '../screen/UserAuthe';
 import AppUserProfile from '../screen/AppUserProfile';
+import ApotekHome from '../screen/Apotek/ApotekHome';
 import ApotekListObat from '../screen/Apotek/ApotekListObat';
 import ApotekEditObat from '../screen/Apotek/ApotekEditObat';
+import ApotekDaftarAllPasien from '../screen/Apotek/ApotekDaftarAllPasien';
 import UserPilihBooking from '../screen/User/UserPilihBooking';
 import ResepsionisHome from '../screen/Resepsionis/ResepsionisHome';
 import ResepsionisDaftarBooking from '../screen/Resepsionis/ResepsionisDaftarBooking';
+import DokterHome from '../screen/Dokter/DokterHome';
+import DokterDaftarAllPasien from '../screen/Dokter/DokterDaftarAllPasien';
+import DokterDaftarHarianPasien from '../screen/Dokter/DokterDaftarHarianPasien';
+import DokterDetailPasien from '../screen/Dokter/DokterDetailPasien';
+import UserRekamMedik from '../screen/User/UserRekamMedik';
 
 const BottomTabNavigator = createBottomTabNavigator(
   {
@@ -54,11 +61,17 @@ const routeConfig = {
   AppUserProfile: {
     screen: AppUserProfile,
   },
+  ApotekHome: {
+    screen: ApotekHome,
+  },
   ApotekListObat: {
     screen: ApotekListObat,
   },
   ApotekEditObat: {
     screen: ApotekEditObat,
+  },
+  ApotekDaftarAllPasien: {
+    screen: ApotekDaftarAllPasien,
   },
   UserPilihBooking: {
     screen: UserPilihBooking,
@@ -68,6 +81,21 @@ const routeConfig = {
   },
   ResepsionisHome: {
     screen: ResepsionisHome,
+  },
+  DokterHome: {
+    screen: DokterHome,
+  },
+  DokterDaftarAllPasien: {
+    screen: DokterDaftarAllPasien,
+  },
+  DokterDaftarHarianPasien: {
+    screen: DokterDaftarHarianPasien,
+  },
+  DokterDetailPasien: {
+    screen: DokterDetailPasien,
+  },
+  UserRekamMedik: {
+    screen: UserRekamMedik,
   },
   Intro: {
     screen: IntroScreen,

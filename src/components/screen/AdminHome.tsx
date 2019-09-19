@@ -11,6 +11,8 @@ import styled from 'styled-components/native';
 
 import UserHome from '../screen/User/UserHome';
 import ResepsionisHome from '../screen/Resepsionis/ResepsionisHome';
+import DokterHome from '../screen/Dokter/DokterHome';
+import ApotekHome from '../screen/Apotek/ApotekHome';
 
 interface IProps {
     navigation?: any;
@@ -45,22 +47,16 @@ function Page(props: IProps) {
                     </Card.Content>
                 </Card>
                 {!!state.appUser && state.appUser.userRole === 'apotek' &&
-                    <Card key={'2'}>
-                        <Card.Content>
-                            <Title>List Obat</Title>
-                        </Card.Content>
-                        <Card.Actions>
-                            <Button onPress={() => props.navigation.navigate('ApotekListObat')}>
-                                GO
-                            </Button>
-                        </Card.Actions>
-                    </Card>
+                    <ApotekHome navigation={props.navigation} />
                 }
                 {!!state.appUser && state.appUser.userRole === 'user' &&
                     <UserHome navigation={props.navigation} />
                 }
                 {!!state.appUser && state.appUser.userRole === 'resepsionis' &&
                     <ResepsionisHome navigation={props.navigation} />
+                }
+                {!!state.appUser && state.appUser.userRole === 'dokter' &&
+                    <DokterHome navigation={props.navigation} />
                 }
             </View>
         </Container>
