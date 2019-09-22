@@ -13,6 +13,7 @@ import UserHome from '../screen/User/UserHome';
 import ResepsionisHome from '../screen/Resepsionis/ResepsionisHome';
 import DokterHome from '../screen/Dokter/DokterHome';
 import ApotekHome from '../screen/Apotek/ApotekHome';
+import BillingHome from '../screen/Billing/BillingHome';
 
 interface IProps {
     navigation?: any;
@@ -42,8 +43,8 @@ function Page(props: IProps) {
                 <Card key={'1'}>
                     <Card.Content>
                         <Title>Halo, {!!state.appUser && state.appUser.userName}</Title>
-                        <Paragraph>{!!state.appUser && state.appUser.userEmail}</Paragraph>
-                        <Paragraph>{!!state.appUser && state.appUser.userRole}</Paragraph>
+                        {/* <Paragraph>{!!state.appUser && state.appUser.userEmail}</Paragraph> */}
+                        {/* <Paragraph>{!!state.appUser && state.appUser.userRole}</Paragraph> */}
                     </Card.Content>
                 </Card>
                 {!!state.appUser && state.appUser.userRole === 'apotek' &&
@@ -57,6 +58,9 @@ function Page(props: IProps) {
                 }
                 {!!state.appUser && state.appUser.userRole === 'dokter' &&
                     <DokterHome navigation={props.navigation} />
+                }
+                {!!state.appUser && state.appUser.userRole === 'billing' &&
+                    <BillingHome navigation={props.navigation} />
                 }
             </View>
         </Container>

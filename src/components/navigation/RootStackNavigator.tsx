@@ -20,6 +20,8 @@ import DokterDaftarAllPasien from '../screen/Dokter/DokterDaftarAllPasien';
 import DokterDaftarHarianPasien from '../screen/Dokter/DokterDaftarHarianPasien';
 import DokterDetailPasien from '../screen/Dokter/DokterDetailPasien';
 import UserRekamMedik from '../screen/User/UserRekamMedik';
+import BillingHome from '../screen/Billing/BillingHome';
+import BillingDaftarAllPasien from '../screen/Billing/BillingDaftarAllPasien';
 
 const BottomTabNavigator = createBottomTabNavigator(
   {
@@ -96,6 +98,12 @@ const routeConfig = {
   },
   UserRekamMedik: {
     screen: UserRekamMedik,
+  },
+  BillingHome: {
+    screen: BillingHome,
+  },
+  BillingDaftarAllPasien: {
+    screen: BillingDaftarAllPasien,
   },
   Intro: {
     screen: IntroScreen,

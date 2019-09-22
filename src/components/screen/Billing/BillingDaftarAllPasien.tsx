@@ -21,8 +21,6 @@ interface IProps {
 function Page(props: IProps) {
     const { state } = useContext(AppContext);
     const [produk, setProduk] = useState([]);
-    // const [txtJumlahPesan, setTxtJumlahPesan] = useState('0');
-    // console.log(state.appUser);
     const _renderItem = ({ item }: any) => (
         <Card key={item.userId}>
             <Card.Content>
@@ -37,7 +35,7 @@ function Page(props: IProps) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await fb.db.ref('appUser').orderByChild('userFlagActivity').equalTo('Pemeriksaan Poli Selesai').once('value');
+            const res = await fb.db.ref('appUser').orderByChild('userFlagActivity').equalTo('Proses Obat Apotek Selesai').once('value');
             const r1: any = [];
             res.forEach((el: any) => {
                 r1.push({

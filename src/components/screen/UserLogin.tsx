@@ -32,29 +32,31 @@ function Login(props: IProps) {
   }
 
   return (
-    <View>
-      <TextInput
-        label='Email'
-        value={txtEmail}
-        onChangeText={(a) => setTxtEmail(a)}
-        keyboardType='email-address'
-      />
-      <Space8 />
-      <TextInput
-        label='Password'
-        value={txtPassword}
-        onChangeText={(a) => setTxtPassword(a)}
-        secureTextEntry={true}
-      />
-      <Space8 />
-      <Button icon="add-a-photo" mode="contained" onPress={() => _onLogin(txtEmail, txtPassword)}>
-        Login
+    <Container>
+      <View style={{ width: '100%' }}>
+        <TextInput
+          label='Email'
+          value={txtEmail}
+          onChangeText={(a) => setTxtEmail(a)}
+          keyboardType='email-address'
+        />
+        <Space8 />
+        <TextInput
+          label='Password'
+          value={txtPassword}
+          onChangeText={(a) => setTxtPassword(a)}
+          secureTextEntry={true}
+        />
+        <Space8 />
+        <Button mode="contained" onPress={() => _onLogin(txtEmail, txtPassword)}>
+          Login
       </Button>
-      <Space8 />
-      <Button icon="add-a-photo" mode="contained" onPress={() => props.navigation.navigate('UserRegister')}>
-        Register
+        <Space8 />
+        <Button mode='text' onPress={() => props.navigation.navigate('UserRegister')}>
+          Register
       </Button>
-    </View>
+      </View>
+    </Container>
   );
 
 
@@ -66,13 +68,14 @@ Login.navigationOptions = {
 
 export default Login;
 
-// const Container = styled.View`
-//   flex: 1;
-//   background-color: ${(props) => props.theme.background};
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: flex-start;
-// `;
+const Container = styled.View`
+  flex: 1;
+  background-color: ${(props) => props.theme.background};
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+`;
 const Space8 = styled.View`
   height: 8px;
   width: 8px;

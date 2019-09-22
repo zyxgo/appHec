@@ -1,21 +1,11 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  Platform,
-  StatusBar,
-  StyleSheet,
-  TouchableHighlight,
-  TouchableOpacity,
-  Image,
-  ScrollView,
   View,
-  FlatList,
-  InteractionManager,
 } from 'react-native';
-import { AppProvider as Provider, AppConsumer, AppContext } from '../../../providers';
+import { AppContext } from '../../../providers';
 import * as fb from '../../../firebase/firebase';
 import {
-  Title, Paragraph, Caption, Subheading, Text,
-  Card, Searchbar, TextInput, Dialog, Portal, IconButton,
+  Title, Subheading, Text,
   Button, ActivityIndicator,
 } from 'react-native-paper';
 
@@ -30,7 +20,7 @@ function Page(props: IProps) {
 
   const [loading, setLoading] = useState(true);
   const [userRekamMedik, setUserRekamMedik] = useState([]);
-  // const { state, dispatch } = React.useContext(AppContext);
+  const { state } = React.useContext(AppContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,10 +29,16 @@ function Page(props: IProps) {
       res.forEach((el: any) => {
         r1.push({
           bulanRekamMedik: el.val().bulanRekamMedik,
-          tanggalRekamMedik: el.val().tanggalRekamMedik,
+          dokterPeriksa: el.val().dokterPeriksa,
+          flagRekamMedik: el.val().flagRekamMedik,
+          idDokterPeriksa: el.val().idDokterPeriksa,
+          idPasienRekamMedik: el.val().idPasienRekamMedik,
+          idRekamMedik: el.val().idRekamMedik,
           listDiagnosa: el.val().listDiagnosa,
           listObat: el.val().listObat,
           namaPasienRekamMedik: el.val().namaPasienRekamMedik,
+          statusPasienRekamMedik: el.val().statusPasienRekamMedik,
+          tanggalRekamMedik: el.val().tanggalRekamMedik,
         });
       });
       setUserRekamMedik(r1)
@@ -54,18 +50,63 @@ function Page(props: IProps) {
     };
   }, [loading]);
 
-  console.log(r)
-  console.log(userRekamMedik)
+  const _onApotekSelesai = (p: any) => {
+    // console.log(p)
+    fb.db.ref('appUser/' + p.idPasienRekamMedik).update({
+      userFlagActivity: 'Proses Obat Apotek Selesai'
+    })
+    fb.db.ref('rekamMedikPasien/' + p.idRekamMedik).update({
+      flagRekamMedik: 'Poli Ok, Apotek Ok, Billing Nok',
+    })
+    props.navigation.navigate('BottomTabNavigator')
+  }
+
+  const _onBillingSelesai = (p: any) => {
+    // console.log(p)
+    fb.db.ref('appUser/' + p.idPasienRekamMedik).update({
+      userFlagActivity: 'Proses Billing Selesai'
+    })
+    fb.db.ref('rekamMedikPasien/' + p.idRekamMedik).update({
+      flagRekamMedik: 'Poli Ok, Apotek Ok, Billing Ok',
+    })
+    props.navigation.navigate('BottomTabNavigator')
+  }
+
+  // console.log(r)
+  // console.log(userRekamMedik)
 
   return (
     <Container>
       {loading ? <ActivityIndicator /> :
         <View>
-          {userRekamMedik.map((el:any, key) =>
+          {userRekamMedik.map((el: any, key) =>
             <View key={key}>
-              <Text>{el.namaPasienRekamMedik}</Text>
-              <Text>{el.listDiagnosa}</Text>
-              <Text>{el.listObat}</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Title>{el.namaPasienRekamMedik}</Title>
+                <Space8 />
+                { state.appUser.userRole === 'apotek' &&
+                  <Button mode="contained" onPress={() => _onApotekSelesai(el)}>
+                    Selesai
+                  </Button>
+                }
+                { state.appUser.userRole === 'billing' &&
+                  <Button mode="contained" onPress={() => _onBillingSelesai(el)}>
+                    Selesai
+                  </Button>
+                }
+              </View>
+              <Subheading>Diagnosa</Subheading>
+              {JSON.parse(el.listDiagnosa).map((el: any, key1) =>
+                <View key={key1}>
+                  <Text>{el.namaDiagnosa}</Text>
+                </View>
+              )}
+              <Subheading>Obat</Subheading>
+              {JSON.parse(el.listObat).map((el: any, key2) =>
+                <View key={key2}>
+                  <Text>{el.namaObat}</Text>
+                </View>
+              )}
             </View>
           )}
         </View>
@@ -74,12 +115,23 @@ function Page(props: IProps) {
   );
 }
 
+Page.navigationOptions = {
+  title: 'Pasien Rekam Medik',
+}
+
 export default Page;
+
+
 
 const Container = styled.View`
   flex: 1;
   background-color: ${(props) => props.theme.background};
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 10px;
+`;
+const Space8 = styled.View`
+  height: 8px;
+  width: 8px;
 `;

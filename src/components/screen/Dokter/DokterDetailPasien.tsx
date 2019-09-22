@@ -119,6 +119,7 @@ function Page(props: IProps) {
       const a = fb.db.ref('rekamMedikPasien').push();
       setUidRekamMedik(a.key);
       fb.db.ref('rekamMedikPasien/' + a.key).update({
+        idRekamMedik: a.key,
         tanggalRekamMedik: Moment(Date.now()).format('YYYY-MM-DD'),
         bulanRekamMedik: Moment().month() + 1,
         idPasienRekamMedik: listUser.userId,
@@ -127,6 +128,7 @@ function Page(props: IProps) {
         listDiagnosa: JSON.stringify(filteredDiagnosa),
         dokterPeriksa: state.appUser.userName,
         idDokterPeriksa: state.appUser.userId,
+        flagRekamMedik: 'Poli Ok, Apotek Nok, Billing Nok',
       });
     } else {
       fb.db.ref('rekamMedikPasien/' + uidRekamMedik).update({
@@ -144,6 +146,7 @@ function Page(props: IProps) {
       const a = fb.db.ref('rekamMedikPasien').push();
       setUidRekamMedik(a.key);
       fb.db.ref('rekamMedikPasien/' + a.key).update({
+        idRekamMedik: a.key,
         tanggalRekamMedik: Moment(Date.now()).format('YYYY-MM-DD'),
         bulanRekamMedik: Moment().month() + 1,
         idPasienRekamMedik: listUser.userId,
@@ -152,6 +155,7 @@ function Page(props: IProps) {
         listObat: JSON.stringify(filteredObat),
         dokterPeriksa: state.appUser.userName,
         idDokterPeriksa: state.appUser.userId,
+        flagRekamMedik: 'Poli Ok, Apotek Nok, Billing Nok',
       });
     } else {
       fb.db.ref('rekamMedikPasien/' + uidRekamMedik).update({
